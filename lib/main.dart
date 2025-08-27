@@ -10,6 +10,10 @@ class BankApp extends StatelessWidget {
 }
 
 class FormularioTransferencia extends StatelessWidget {
+  final TextEditingController _controladorCampoNumeroConta =
+      TextEditingController();
+  final TextEditingController _controladorCampoValor = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,17 +31,39 @@ class FormularioTransferencia extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          TextField(
-            style: TextStyle(
-              fontSize: 25.0,
-              
-            ),
-            decoration: InputDecoration(
-              labelText: "Número da Conta",
-              hintText: "0000",
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _controladorCampoNumeroConta,
+              style: TextStyle(fontSize: 25.0),
+              decoration: InputDecoration(
+                labelText: "Número da Conta",
+                hintText: "0000",
+              ),
+              keyboardType: TextInputType.number,
             ),
           ),
-          TextField(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _controladorCampoValor,
+              style: TextStyle(fontSize: 25.0),
+              decoration: InputDecoration(
+                labelText: "Valor",
+                hintText: "0.00",
+                icon: Icon(Icons.monetization_on),
+              ),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              debugPrint("Transação confirmada");
+              debugPrint(_controladorCampoNumeroConta.text);
+              debugPrint(_controladorCampoValor.text);
+            },
+            child: Text("Confirmar"),
+          ),
         ],
       ),
     );
