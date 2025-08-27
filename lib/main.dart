@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(BankApp());
 
-class BankApp extends StatefulWidget {
+class BankApp extends StatelessWidget {
   @override
   Widget build(BuildContext build) {
     return MaterialApp(home: Scaffold(body: FormularioTransferencia()));
@@ -25,6 +25,7 @@ class FormularioTransferencia extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
         //foregroundColor: const Color.fromRGBO(10, 10, 10, 1),
       ),
+      body: Text("Teste agora!"),
     );
   }
 }
