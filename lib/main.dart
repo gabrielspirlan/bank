@@ -25,7 +25,21 @@ class FormularioTransferencia extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
         //foregroundColor: const Color.fromRGBO(10, 10, 10, 1),
       ),
-      body: Text("Teste agora!"),
+      body: Column(
+        children: <Widget>[
+          TextField(
+            style: TextStyle(
+              fontSize: 25.0,
+              
+            ),
+            decoration: InputDecoration(
+              labelText: "Número da Conta",
+              hintText: "0000",
+            ),
+          ),
+          TextField(),
+        ],
+      ),
     );
   }
 }
