@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() =>
-    runApp(BankApp());
+void main() => runApp(BankApp());
 
 class BankApp extends StatefulWidget {
   @override
@@ -13,7 +12,20 @@ class BankApp extends StatefulWidget {
 class FormularioTransferencia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("Isto é um teste");
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Criando Transferência",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
+        //foregroundColor: const Color.fromRGBO(10, 10, 10, 1),
+      ),
+    );
   }
 }
 
