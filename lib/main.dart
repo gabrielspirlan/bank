@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 void main() => runApp(BankApp());
 
 class BankApp extends StatelessWidget {
+  const BankApp({super.key});
+
   @override
   Widget build(BuildContext build) {
-    return MaterialApp(home: Scaffold(body: FormularioTransferencia()));
+    return MaterialApp(home: Scaffold(body: ListaTransferencias()));
   }
 }
 
@@ -46,6 +48,7 @@ class FormularioTransferencia extends StatelessWidget {
             child: Text("Confirmar"),
             onPressed: () {
               _criaTransferencia(
+                context,
                 _controladorCampoNumeroConta,
                 _controladorCampoValor,
               );
@@ -84,13 +87,54 @@ class Editor extends StatelessWidget {
 }
 
 class ListaTransferencias extends StatelessWidget {
+
+final List<Transferencia> _transferencia = []; 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Transferências")),
+      appBar: AppBar(
+        title: Text(
+          "Transferências",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
+        //foregroundColor: const Color.fromRGBO(10, 10, 10, 1),
+      ),
 
-      body: Column(
+      body: ListView(
         children: <Widget>[
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
+          ItemTransferencia(Transferencia(100, 1000)),
+          ItemTransferencia(Transferencia(200, 2000)),
+          ItemTransferencia(Transferencia(300, 3000)),
           ItemTransferencia(Transferencia(100, 1000)),
           ItemTransferencia(Transferencia(200, 2000)),
           ItemTransferencia(Transferencia(300, 3000)),
@@ -100,10 +144,22 @@ class ListaTransferencias extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Botão + pressionado");
+          final Future future = Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return FormularioTransferencia();
+              },
+            ),
+          );
+          future.then((transferenciaRecebida) {
+            debugPrint("Chegou no then do future");
+            debugPrint("$transferenciaRecebida");
+          });
         },
         child: Icon(Icons.add),
-        backgroundColor: Color.fromRGBO(123, 200, 300, 1),
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat(),
     );
   }
 }
@@ -138,6 +194,7 @@ class Transferencia {
 }
 
 void _criaTransferencia(
+  BuildContext context,
   TextEditingController controladorCampoNumeroConta,
   TextEditingController controladorCampoValor,
 ) {
@@ -145,6 +202,8 @@ void _criaTransferencia(
   final double? valor = double.tryParse(controladorCampoValor.text);
   if (numeroConta != null && valor != null) {
     final Transferencia transferenciaCriada = Transferencia(valor, numeroConta);
+    debugPrint("Criando Transferência");
     debugPrint(transferenciaCriada.toString());
+    Navigator.pop(context, transferenciaCriada);
   }
 }
