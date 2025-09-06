@@ -11,11 +11,18 @@ class BankApp extends StatelessWidget {
   }
 }
 
-class FormularioTransferencia extends StatelessWidget {
+class FormularioTransferencia extends StatefulWidget {
   final TextEditingController _controladorCampoNumeroConta =
       TextEditingController();
   final TextEditingController _controladorCampoValor = TextEditingController();
 
+  @override
+  State<StatefulWidget> createState() {
+    return FormularioTransferenciaState();
+  }
+}
+
+class FormularioTransferenciaState extends State<FormularioTransferencia> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,30 +38,32 @@ class FormularioTransferencia extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
         //foregroundColor: const Color.fromRGBO(10, 10, 10, 1),
       ),
-      body: Column(
-        children: <Widget>[
-          Editor(
-            controlador: _controladorCampoNumeroConta,
-            rotulo: "Número da conta",
-            dica: "000000",
-          ),
-          Editor(
-            controlador: _controladorCampoValor,
-            rotulo: "Valor",
-            dica: "00.00",
-            icone: Icons.monetization_on,
-          ),
-          ElevatedButton(
-            child: Text("Confirmar"),
-            onPressed: () {
-              _criaTransferencia(
-                context,
-                _controladorCampoNumeroConta,
-                _controladorCampoValor,
-              );
-            },
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Editor(
+              controlador: widget._controladorCampoNumeroConta,
+              rotulo: "Número da conta",
+              dica: "000000",
+            ),
+            Editor(
+              controlador: widget._controladorCampoValor,
+              rotulo: "Valor",
+              dica: "00.00",
+              icone: Icons.monetization_on,
+            ),
+            ElevatedButton(
+              child: Text("Confirmar"),
+              onPressed: () {
+                _criaTransferencia(
+                  context,
+                  widget._controladorCampoNumeroConta,
+                  widget._controladorCampoValor,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -86,11 +95,16 @@ class Editor extends StatelessWidget {
   }
 }
 
-class ListaTransferencias extends StatelessWidget {
-
-final List<Transferencia> _transferencia = []; 
+class ListaTransferencias extends StatefulWidget {
+  final List<Transferencia> _transferencias = [];
 
   @override
+  State<StatefulWidget> createState() {
+    return ListaTransferenciasState();
+  }
+}
+
+class ListaTransferenciasState extends State<ListaTransferencias> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -106,39 +120,12 @@ final List<Transferencia> _transferencia = [];
         //foregroundColor: const Color.fromRGBO(10, 10, 10, 1),
       ),
 
-      body: ListView(
-        children: <Widget>[
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-          ItemTransferencia(Transferencia(100, 1000)),
-          ItemTransferencia(Transferencia(200, 2000)),
-          ItemTransferencia(Transferencia(300, 3000)),
-        ],
+      body: ListView.builder(
+        itemCount: widget._transferencias.length,
+        itemBuilder: (context, indice) {
+          final transferencia = widget._transferencias[indice];
+          return ItemTransferencia(transferencia);
+        },
       ),
 
       floatingActionButton: FloatingActionButton(
@@ -155,6 +142,11 @@ final List<Transferencia> _transferencia = [];
           future.then((transferenciaRecebida) {
             debugPrint("Chegou no then do future");
             debugPrint("$transferenciaRecebida");
+            if (transferenciaRecebida != null) {
+              setState(() {
+                widget._transferencias.add(transferenciaRecebida);
+              });
+            }
           });
         },
         child: Icon(Icons.add),
